@@ -110,7 +110,7 @@ public class DependentExecute {
             if(dependentItem.getDepTasks().equals(Constants.DEPENDENT_ALL)){
                 result = dependResultByProcessInstance(processInstance);
             }else{
-                result = getDependTaskResult(dependentItem.getDepTasks(),processInstance);
+                result = getDependTaskResult(dependentItem.getDepTasks(),processInstance, dateInterval);
             }
             if(result != DependResult.SUCCESS){
                 break;
@@ -139,7 +139,7 @@ public class DependentExecute {
      * @param processInstance
      * @return
      */
-    private DependResult getDependTaskResult(String taskName, ProcessInstance processInstance) {
+    private DependResult getDependTaskResult(String taskName, ProcessInstance processInstance, DateInterval dateInterval) {
         DependResult result;
         TaskInstance taskInstance = null;
         List<TaskInstance> taskInstanceList = processService.findValidTaskListByProcessId(processInstance.getId());
@@ -155,7 +155,19 @@ public class DependentExecute {
             // cannot find task in the process instance
             // maybe because process instance is running or failed.
             if(processInstance.getState().typeIsFinished()){
-                result = DependResult.FAILED;
+                Integer processDefinitionId = processInstance.getProcessDefinitionId();
+                Date taskStartTime = dateInterval.getStartTime();
+                Date taskEndTime = dateInterval.getEndTime();
+                TaskInstance lastTaskInstance = processService.findLastRunningTaskByProcessDefinitionId(processDefinitionId, taskName, taskStartTime, taskEndTime);
+                if(lastTaskInstance == null) {
+                    return DependResult.FAILED;
+                }
+                if(lastTaskInstance.getState().typeIsFinished()){
+                    result = getDependResultByState(lastTaskInstance.getState());
+                }else {
+                    result = DependResult.WAITING;
+                }
+//                result = DependResult.FAILED;
             }else{
                 return DependResult.WAITING;
             }

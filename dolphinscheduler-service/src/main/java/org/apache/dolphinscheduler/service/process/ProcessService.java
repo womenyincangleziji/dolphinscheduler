@@ -1317,6 +1317,10 @@ public class ProcessService {
         return taskInstanceMapper.findValidTaskListByProcessId(processInstanceId, Flag.YES);
     }
 
+    public TaskInstance findLastRunningTaskByProcessDefinitionId(Integer processDefinitionId, String taskName, Date startTime, Date endTime){
+        return taskInstanceMapper.findLastRunningTaskByProcessDefinitionId(processDefinitionId, stateArray, taskName, startTime, endTime);
+    }
+
     /**
      * find previous task list by work process id
      * @param processInstanceId processInstanceId

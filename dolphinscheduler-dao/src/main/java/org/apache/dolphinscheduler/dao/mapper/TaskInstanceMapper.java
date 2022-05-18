@@ -39,6 +39,12 @@ public interface TaskInstanceMapper extends BaseMapper<TaskInstance> {
     List<TaskInstance> findValidTaskListByProcessId(@Param("processInstanceId") Integer processInstanceId,
                                                     @Param("flag") Flag flag);
 
+    TaskInstance findLastRunningTaskByProcessDefinitionId(@Param("processDefinitionId") Integer processDefinitionId,
+                                                          @Param("states") int[] stateArray,
+                                                          @Param("name") String taskName,
+                                                          @Param("startTime") Date startTime,
+                                                          @Param("endTime") Date endTime);
+
     List<TaskInstance> queryByHostAndStatus(@Param("host") String host,
                                             @Param("states") int[] stateArray);
 
