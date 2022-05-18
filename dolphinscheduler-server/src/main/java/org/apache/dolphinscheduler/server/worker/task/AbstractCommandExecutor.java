@@ -440,6 +440,10 @@ public abstract class AbstractCommandExecutor {
          * analysis log?get submited yarn application id
          */
         for (String log : logs) {
+            if(log.contains("hdfs_importer")){
+                appIds.clear();
+                return appIds;
+            }
             String appId = findAppId(log);
             if (StringUtils.isNotEmpty(appId) && !appIds.contains(appId)) {
                 logger.info("find app id: {}", appId);
