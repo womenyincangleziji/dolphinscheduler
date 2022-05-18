@@ -41,7 +41,7 @@ public interface TaskInstanceMapper extends BaseMapper<TaskInstance> {
 
     TaskInstance findLastRunningTaskByProcessDefinitionId(@Param("processDefinitionId") Integer processDefinitionId,
                                                           @Param("states") int[] stateArray,
-                                                          @Param("name") String taskName,
+                                                          @Param("taskName") String taskName,
                                                           @Param("startTime") Date startTime,
                                                           @Param("endTime") Date endTime);
 
