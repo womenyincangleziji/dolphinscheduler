@@ -163,12 +163,10 @@ public class DependentExecute {
                     return DependResult.FAILED;
                 }
                 if(lastTaskInstance.getState().typeIsFinished()){
-                    logger.error(lastTaskInstance.toString());
                     result = getDependResultByState(lastTaskInstance.getState());
                 }else {
                     result = DependResult.WAITING;
                 }
-//                result = DependResult.FAILED;
             }else{
                 return DependResult.WAITING;
             }
