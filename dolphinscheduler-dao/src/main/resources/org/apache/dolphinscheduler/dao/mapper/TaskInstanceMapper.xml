@@ -45,15 +45,9 @@
         select *
         from t_ds_task_instance
         <where>
-            <if test="states !=null and states.length != 0">
-                state in
-                <foreach collection="states" item="i" index="index" open="(" separator="," close=")">
-                    #{i}
-                </foreach>
-            </if>
+            process_definition_id=#{processDefinitionId}
+            and name=#{taskName}
             <if test="startTime!=null and endTime != null ">
-                and process_definition_id=#{processDefinitionId}
-                and name=#{taskName}
                 and start_time <![CDATA[ >= ]]> #{startTime} and start_time <![CDATA[ <= ]]> #{endTime}
             </if>
         </where>

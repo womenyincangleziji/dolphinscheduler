@@ -1318,6 +1318,7 @@ public class ProcessService {
     }
 
     public TaskInstance findLastRunningTaskByProcessDefinitionId(Integer processDefinitionId, String taskName, Date startTime, Date endTime){
+        logger.error("processDefinitionId:{},taskName:{},startTime:{},endTime:{}", processDefinitionId,taskName,startTime,endTime);
         return taskInstanceMapper.findLastRunningTaskByProcessDefinitionId(processDefinitionId, stateArray, taskName, startTime, endTime);
     }
 
